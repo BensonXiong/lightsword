@@ -36,6 +36,7 @@ class HttpApiController @Autowired()(
   }, method = Array(RequestMethod.GET))
   def listJson() = HttpApiDao.findAll()
 
+  @PreAuthorize("hasRole('USER')")
   @RequestMapping(value = {
     Array("/listHttpSuiteTestCase")
   }, method = Array(RequestMethod.GET))
@@ -56,6 +57,7 @@ class HttpApiController @Autowired()(
     HttpApiDao.listByHttpSuiteId(httpSuiteId)
   }
 
+  @PreAuthorize("hasRole('USER')")
   @RequestMapping(Array("/newPage/{httpSuiteId}"))
   def goNewPage(@PathVariable(value = "httpSuiteId") httpSuiteId: Integer, model: Model) = {
     model.addAttribute("httpSuiteId", httpSuiteId)
@@ -66,6 +68,7 @@ class HttpApiController @Autowired()(
   /**
     * 项目下面的用例编辑
     */
+  @PreAuthorize("hasRole('USER')")
   @RequestMapping(Array("/editPage/{caseId}"))
   def goEditPage(model: Model, @PathVariable(value = "caseId") caseId: Integer, @RequestParam(value = "httpSuiteId") httpSuiteId: Integer) = {
     val httpapi = HttpApiDao.findOne(caseId)
@@ -75,6 +78,7 @@ class HttpApiController @Autowired()(
     new ModelAndView("/httpapi/edit")
   }
 
+  @PreAuthorize("hasRole('USER')")
   @RequestMapping(Array("/copyPage/{caseId}"))
   def goCopyPage(model: Model, @PathVariable(value = "caseId") caseId: Integer, @RequestParam(value = "httpSuiteId") httpSuiteId: Integer) = {
     val httpapi = HttpApiDao.findOne(caseId)
@@ -84,6 +88,7 @@ class HttpApiController @Autowired()(
     new ModelAndView("/httpapi/copy")
   }
 
+  @PreAuthorize("hasRole('USER')")
   @RequestMapping(Array("/detailPage/{id}"))
   def goDetailPage(model: Model, @PathVariable(value = "id") id: Integer) = {
     val httpapi = HttpApiDao.findOne(id)
@@ -118,6 +123,7 @@ class HttpApiController @Autowired()(
     HttpApiDao.save(httpapi)
   }
 
+  @PreAuthorize("hasRole('USER')")
   @RequestMapping(value = Array("/postedit"),
     method = Array(RequestMethod.POST))
   @ResponseBody
@@ -140,6 +146,7 @@ class HttpApiController @Autowired()(
   /**
     * 在新建用例页面,调试用例用
     */
+  @PreAuthorize("hasRole('USER')")
   @RequestMapping(value = Array("/debugTest"),
     method = Array(RequestMethod.GET))
   @ResponseBody
@@ -152,6 +159,7 @@ class HttpApiController @Autowired()(
   /**
     * 执行用例
     */
+  @PreAuthorize("hasRole('USER')")
   @RequestMapping(value = Array("/runTest"),
     method = Array(RequestMethod.GET))
   @ResponseBody

@@ -10,12 +10,13 @@ import java.nio.charset.Charset
 
 import static ch.qos.logback.classic.Level.INFO
 import static ch.qos.logback.classic.Level.TRACE
+import static ch.qos.logback.classic.Level.DEBUG
 
 def USER_HOME = System.getProperty("user.home")
 def APP_NAME = "lightsword"
 def LOG_PATTERN = "%d{HH:mm:ss.SSS} [%thread] %-5level %logger{35} - %msg %n"
 def LOG_FILE = "${USER_HOME}/logs/${APP_NAME}"
-def FILE_NAME_PATTERN = "${APP_NAME}.%d{yyyy-MM-dd}.log"
+def FILE_NAME_PATTERN = "${USER_HOME}/logs/${APP_NAME}.%d{yyyy-MM-dd}.log"
 
 scan("60 seconds")
 
@@ -40,7 +41,7 @@ appender("dailyRollingFileAppender", RollingFileAppender) {
         maxHistory = 30
     }
     filter(ThresholdFilter) {
-        level = TRACE
+        level = DEBUG
     }
     encoder(PatternLayoutEncoder) {
         pattern = "${LOG_PATTERN}"
