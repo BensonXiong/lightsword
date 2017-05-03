@@ -13,7 +13,7 @@ import org.springframework.core.annotation.Order
   * Created by jack on 2017/4/28.
   */
 @Order(1) //@Order注解表示执行过滤顺序，值越小，越先执行
-@WebFilter(filterName = "loginFilter", urlPatterns = Array("/*")) //需要在spring-boot的入口处加注解@ServletComponentScan, 如果不指定，默认url-pattern是/*
+@WebFilter(filterName = "loginFilter", urlPatterns = Array("/", "/home", "/about", "/httpapi/*", "/httpsuite/*", "/httpreport/*")) //需要在spring-boot的入口处加注解@ServletComponentScan, 如果不指定，默认url-pattern是/*
 class LoginFilter extends Filter {
   val log = LoggerFactory.getLogger(classOf[LoginFilter])
 
@@ -27,19 +27,28 @@ class LoginFilter extends Filter {
     import org.springframework.security.core.context.SecurityContextHolder
     import org.springframework.security.core.userdetails.UserDetails
 
-    val principal = SecurityContextHolder.getContext.getAuthentication.getPrincipal
-
-
-    println("LoginFilter:" + JSON.toJSONString(principal, SerializerFeature.PrettyFormat))
-    log.debug("LoginFilter:" + JSON.toJSONString(principal, SerializerFeature.PrettyFormat))
-
     var username = ""
-    if (principal.isInstanceOf[UserDetails]) {
-      username = principal.asInstanceOf[UserDetails].getUsername
+
+    try {
+      val principal = SecurityContextHolder.getContext.getAuthentication.getPrincipal
+
+
+      println("LoginFilter:" + JSON.toJSONString(principal, SerializerFeature.PrettyFormat))
+      log.debug("LoginFilter:" + JSON.toJSONString(principal, SerializerFeature.PrettyFormat))
+
+
+      if (principal.isInstanceOf[UserDetails]) {
+        username = principal.asInstanceOf[UserDetails].getUsername
+      }
+      else {
+        username = principal.toString
+      }
+    } catch {
+      case ex: Exception => {
+        ex.printStackTrace()
+      }
     }
-    else {
-      username = principal.toString
-    }
+
     session.setAttribute("username", username)
 
     chain.doFilter(request, response)

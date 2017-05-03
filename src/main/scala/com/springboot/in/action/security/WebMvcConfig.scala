@@ -15,4 +15,18 @@ class WebMvcConfig extends WebMvcConfigurerAdapter {
   override def addViewControllers(registry: ViewControllerRegistry) {
     registry.addViewController("/login").setViewName("/login")
   }
+
+
+  import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
+
+  /**
+    * static resources mapping
+    * @param registry
+    */
+  override def addResourceHandlers(registry: ResourceHandlerRegistry): Unit = { //Swagger ui Mapping
+    registry.addResourceHandler("swagger-ui.html").addResourceLocations("classpath:/META-INF/resources/")
+    registry.addResourceHandler("/js/*").addResourceLocations("classpath:/public/js/")
+    registry.addResourceHandler("/css/*").addResourceLocations("classpath:/public/css/")
+    registry.addResourceHandler("/fonts/*").addResourceLocations("classpath:/public/fonts/")
+  }
 }

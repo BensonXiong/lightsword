@@ -44,7 +44,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
         http.authorizeRequests()
             .antMatchers("/").permitAll()
-            .antMatchers("/amchart/**",
+            .antMatchers(
+                "/amchart/**",
                 "/bootstrap/**",
                 "/build/**",
                 "/css/**",
@@ -54,7 +55,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 "/js/**",
                 "/pages/**",
                 "/plugins/**"
-            ).permitAll() //默认不拦截静态资源等url pattern
+            ).permitAll() //默认不认证静态资源等url pattern
             .anyRequest().authenticated().and()
             .formLogin().loginPage("/login")// url请求路径
             .defaultSuccessUrl("/httpapi").permitAll().and()

@@ -11,6 +11,7 @@ import java.nio.charset.Charset
 import static ch.qos.logback.classic.Level.INFO
 import static ch.qos.logback.classic.Level.TRACE
 import static ch.qos.logback.classic.Level.DEBUG
+import static ch.qos.logback.classic.Level.ERROR
 
 def USER_HOME = System.getProperty("user.home")
 def APP_NAME = "lightsword"
@@ -41,10 +42,10 @@ appender("dailyRollingFileAppender", RollingFileAppender) {
         maxHistory = 30
     }
     filter(ThresholdFilter) {
-        level = DEBUG
+        level = ERROR
     }
     encoder(PatternLayoutEncoder) {
         pattern = "${LOG_PATTERN}"
     }
 }
-root(TRACE, ["CONSOLE", "dailyRollingFileAppender"])
+root(INFO, ["CONSOLE", "dailyRollingFileAppender"])
