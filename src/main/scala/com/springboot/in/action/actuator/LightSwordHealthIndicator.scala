@@ -8,8 +8,7 @@ import org.springframework.stereotype.Component
   */
 @Component
 class LightSwordHealthIndicator extends HealthIndicator {
-  override
-  def health(): Health = {
+  override def health(): Health = {
     val errorCode = 0 //doCheck(); // perform some specific health check
     if (errorCode != 0)
       Health.down().withDetail("Error Code", errorCode).build()
